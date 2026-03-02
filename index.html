@@ -3,85 +3,75 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Roda Interativa</title>
+  <title>Preocupações da Governança de Dados</title>
   <style>
     :root{
-      --bg:#000;
+      --bg: rgb(25,25,25);
       --ring:#2b6cff;
-      --ring2:#1e3f9a;
       --text:#e9eefc;
-      --muted:#9bb3ff;
-      --panel:#0b0f1f;
+      --muted:#b6c6ff;
       --shadow: rgba(0,0,0,.45);
     }
 
-    html,body{height:100%; margin:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;}
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+
     .wrap{
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:24px;
+      padding:28px 18px;
       box-sizing:border-box;
     }
+
     .card{
-      width:min(980px, 100%);
+      width:min(1060px, 100%);
       display:grid;
-      grid-template-columns: 1fr minmax(240px, 320px);
+      grid-template-columns: 1fr minmax(260px, 360px);
       gap:18px;
-      align-items:center;
+      align-items:start;
     }
 
-    /* Em telas menores, o texto vai pra baixo */
-    @media (max-width: 720px){
+    @media (max-width: 820px){
       .card{ grid-template-columns: 1fr; }
       .panel{ order:2; }
+    }
+
+    .header{
+      grid-column: 1 / -1;
+      text-align:center;
+      margin-bottom: 6px;
+    }
+
+    .title{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: .95;
     }
 
     .stage{
       display:flex;
       justify-content:center;
       align-items:center;
-      background: transparent;
     }
 
-    .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(155,179,255,.18);
-      border-radius: 18px;
-      padding:16px 16px 14px;
-      box-shadow: 0 16px 40px var(--shadow);
-    }
-    .panel h3{
-      margin:0 0 8px;
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color: var(--muted);
-    }
-    .panel .value{
-      font-size:22px;
-      line-height:1.2;
-      margin:0 0 10px;
-      font-weight:700;
-    }
-    .panel .hint{
-      margin:0;
-      font-size:13px;
-      line-height:1.4;
-      color: rgba(233,238,252,.75);
-    }
+    svg{ width:min(540px, 100%); height:auto; display:block; }
 
-    /* SVG */
-    svg{ width:min(520px, 100%); height:auto; display:block; }
     .seg{
       cursor:pointer;
       transition: filter .18s ease, opacity .18s ease;
     }
-    .seg:hover{ filter: drop-shadow(0 0 6px rgba(43,108,255,.45)); }
-    .seg.active{
-      filter: drop-shadow(0 0 10px rgba(43,108,255,.7));
-    }
+    .seg:hover{ filter: drop-shadow(0 0 7px rgba(43,108,255,.45)); }
+    .seg.active{ filter: drop-shadow(0 0 12px rgba(43,108,255,.7)); }
 
     .ringStroke{
       fill:none;
@@ -96,57 +86,79 @@
 
     .label{
       fill: var(--text);
-      font-weight: 600;
+      font-weight: 650;
       font-size: 14px;
       letter-spacing: .08em;
       text-transform: uppercase;
     }
 
-    /* “botão” discreto pra reset */
+    .panel{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(182,198,255,.18);
+      border-radius: 18px;
+      padding:16px 16px 14px;
+      box-shadow: 0 16px 40px var(--shadow);
+    }
+    .panel h3{
+      margin:0 0 8px;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    .panel .value{
+      font-size:22px;
+      line-height:1.2;
+      margin:0 0 10px;
+      font-weight:800;
+    }
+    .panel .sense{
+      margin:0;
+      font-size:14px;
+      line-height:1.55;
+      color: rgba(233,238,252,.88);
+      white-space: pre-wrap;
+    }
+
     .reset{
-      margin-top:10px;
+      margin-top:12px;
       display:inline-flex;
       gap:8px;
       align-items:center;
       font-size:12px;
-      color: rgba(233,238,252,.8);
-      background: rgba(155,179,255,.08);
-      border: 1px solid rgba(155,179,255,.22);
+      color: rgba(233,238,252,.82);
+      background: rgba(182,198,255,.08);
+      border: 1px solid rgba(182,198,255,.22);
       padding:8px 10px;
       border-radius: 12px;
       cursor:pointer;
       user-select:none;
     }
-    .reset:hover{ background: rgba(155,179,255,.12); }
+    .reset:hover{ background: rgba(182,198,255,.12); }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <div class="card">
+      <div class="header">
+        <h1 class="title">PREOCUPAÇÕES DA GOVERNANÇA DE DADOS</h1>
+      </div>
+
       <div class="stage">
         <svg viewBox="-260 -260 520 520" aria-label="Roda Interativa">
-          <!-- contornos externos/ internos do anel -->
           <circle r="210" class="ringStroke" />
           <circle r="150" class="ringStroke" />
 
-          <!-- Segmentos: são "caminhos" grossos (stroke) formando o anel -->
-          <!-- Config: 5 segmentos iguais, com uma pequena folga (gap) -->
-          <g id="segments" fill="none" stroke-linecap="butt">
-            <!-- caminhos gerados no JS -->
-          </g>
-
-          <!-- rótulos -->
-          <g id="labels">
-            <!-- textos gerados no JS -->
-          </g>
+          <g id="segments" fill="none" stroke-linecap="butt"></g>
+          <g id="labels"></g>
         </svg>
       </div>
 
       <div class="panel">
         <h3>SELECIONADO</h3>
         <p class="value" id="selectedText">Clique em um bloco</p>
-        <p class="hint" id="senseText">SENTIDO —</p>
+        <p class="sense" id="senseText">Selecione um item para ver a descrição.</p>
 
         <div class="reset" id="resetBtn" role="button" tabindex="0" aria-label="Limpar seleção">
           Limpar seleção
@@ -156,8 +168,17 @@
   </div>
 
   <script>
-    // ---- CONFIG ----
+    // Itens (rótulos do anel)
     const items = ["VARIEDADE","VERACIDADE","VELOCIDADE","VALOR","VOLUME"];
+
+    // Textos (descrição que aparece ao lado)
+    const sentidos = {
+      "VOLUME": `Hoje em dia temos um VOLUME gigante de dados em todas as empresas, e por isso o volume passou a ser uma preocupação muito grande, em um mundo em que temos uma captura de dados à todo tempo. Essa grande quantidade de dados também pode ser chamada de BIG DATA.`,
+      "VARIEDADE": `Com esse grande volume de dados, temos diversos de modos que os dados chegam em uma base, sendo elas, vídeos, txt, dados tabulados, áudios e etc. Com essas VARIEDADES de conteúdos, é necessário o uso de outras tecnologias pra fazer a compreensão desses dados, onde depois, seja possível criar uma correlação entre eles.`,
+      "VERACIDADE": `Dentro dessa enorme captura de dados, um dos maiores problemas que existem são se alguns dados capturados relamente são reais, então, cruzar informações de diversas fontes para descobrir a veracidade dos dados é algo que também é uma preocupação nesse grande volume de dados.`,
+      "VELOCIDADE": `Basicamente, é a VELOCIDADE que precisamos para processar, armazenar e distribuir essa grande quantidade de dados.`,
+      "VALOR": `Quais desses dados realmente são importantes para uma análise em uma empresa, saber filtrar os dados que vão de fato, influenciar em decisões cruciais dentro da empresa é mais um ponto necessário que evita uma desorganização e uma falta de armazenamento de dados que pode ser evitada.`
+    };
 
     // Geometria do anel
     const rOuter = 210;
@@ -168,16 +189,13 @@
     // Segmentação
     const n = items.length;
     const full = 360;
-    const gapDeg = 2.2;                 // "respiro" entre segmentos
-    const segDeg = (full / n) - gapDeg; // tamanho útil de cada segmento
+    const gapDeg = 2.2;
+    const segDeg = (full / n) - gapDeg;
 
-    // Rotação inicial (pra ficar parecido com a imagem)
-    // -90 coloca o início no topo; ajustamos um pouco pra “centralizar”
+    // Rotação inicial
     const startRotation = -90 - (segDeg + gapDeg)/2;
 
-    // Cores do anel (stroke)
     const strokeColor = getComputedStyle(document.documentElement).getPropertyValue('--ring').trim();
-
     const segGroup = document.getElementById("segments");
     const labelGroup = document.getElementById("labels");
 
@@ -190,7 +208,6 @@
       return { x: r * Math.cos(a), y: r * Math.sin(a) };
     }
 
-    // Arco SVG no formato "A"
     function arcPath(r, a0, a1){
       const p0 = polarToCartesian(r, a0);
       const p1 = polarToCartesian(r, a1);
@@ -199,7 +216,6 @@
     }
 
     function setActive(index){
-      // limpa classes
       [...segGroup.querySelectorAll(".seg")].forEach((el,i)=>{
         el.classList.toggle("active", i === index);
         el.style.opacity = (i === index) ? "1" : "0.88";
@@ -207,7 +223,7 @@
 
       const name = items[index];
       selectedText.textContent = name;
-      senseText.textContent = `SENTIDO ${name}`;
+      senseText.textContent = sentidos[name] || `SENTIDO ${name}`;
     }
 
     function clearActive(){
@@ -216,7 +232,7 @@
         el.style.opacity = "0.95";
       });
       selectedText.textContent = "Clique em um bloco";
-      senseText.textContent = "SENTIDO —";
+      senseText.textContent = "Selecione um item para ver a descrição.";
     }
 
     // Gera segmentos e labels
@@ -224,7 +240,6 @@
       const aStart = startRotation + i*(segDeg + gapDeg) + gapDeg/2;
       const aEnd   = aStart + segDeg;
 
-      // Segmento como arco grosso
       const path = document.createElementNS("http://www.w3.org/2000/svg","path");
       path.setAttribute("d", arcPath(rMid, aStart, aEnd));
       path.setAttribute("stroke", strokeColor);
@@ -234,7 +249,6 @@
       path.addEventListener("click", () => setActive(i));
       segGroup.appendChild(path);
 
-      // Divisórias (linhas radiais finas)
       const divider = document.createElementNS("http://www.w3.org/2000/svg","line");
       const pA = polarToCartesian(rInner, aStart - gapDeg/2);
       const pB = polarToCartesian(rOuter, aStart - gapDeg/2);
@@ -244,7 +258,6 @@
       divider.setAttribute("opacity","0.9");
       segGroup.appendChild(divider);
 
-      // Label (texto seguindo o centro do segmento)
       const mid = (aStart + aEnd)/2;
       const labelPos = polarToCartesian((rOuter + rInner)/2, mid);
 
@@ -255,10 +268,8 @@
       text.setAttribute("text-anchor","middle");
       text.setAttribute("dominant-baseline","middle");
 
-      // Rotaciona o texto pra ficar alinhado ao anel
-      // Se estiver “de cabeça pra baixo”, vira 180 graus
       let rot = mid + 90;
-      let flip = (mid > 90 && mid < 270);
+      const flip = (mid > 90 && mid < 270);
       if (flip) rot += 180;
 
       text.setAttribute("transform", `rotate(${rot} ${labelPos.x} ${labelPos.y})`);
@@ -266,7 +277,7 @@
       labelGroup.appendChild(text);
     });
 
-    // Fecha a última divisória
+    // Última divisória
     {
       const a = startRotation + n*(segDeg + gapDeg) + gapDeg/2;
       const divider = document.createElementNS("http://www.w3.org/2000/svg","line");
@@ -279,11 +290,9 @@
       segGroup.appendChild(divider);
     }
 
-    // Reset
     resetBtn.addEventListener("click", clearActive);
     resetBtn.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); clearActive(); } });
 
-    // Começa sem seleção
     clearActive();
   </script>
 </body>
