@@ -4,13 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Preocupações da Governança de Dados</title>
+
+  <!-- Fonte mais legível e destacada -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg: rgb(25,25,25);
       --ring:#2b6cff;
-      --text:#e9eefc;
-      --muted:#b6c6ff;
-      --shadow: rgba(0,0,0,.45);
+      --text:#f3f6ff;
+      --muted:#c7d2ff;
+      --shadow: rgba(0,0,0,.50);
     }
 
     html,body{
@@ -18,7 +24,10 @@
       margin:0;
       background:var(--bg);
       color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .wrap{
@@ -33,7 +42,7 @@
     .card{
       width:min(1060px, 100%);
       display:grid;
-      grid-template-columns: 1fr minmax(260px, 360px);
+      grid-template-columns: 1fr minmax(280px, 380px);
       gap:18px;
       align-items:start;
     }
@@ -46,16 +55,17 @@
     .header{
       grid-column: 1 / -1;
       text-align:center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .title{
       margin:0;
       font-size: 18px;
-      letter-spacing: .14em;
+      letter-spacing: .18em;
       text-transform: uppercase;
+      font-weight: 800;
       color: var(--text);
-      opacity: .95;
+      opacity: .98;
     }
 
     .stage{
@@ -64,14 +74,14 @@
       align-items:center;
     }
 
-    svg{ width:min(540px, 100%); height:auto; display:block; }
+    svg{ width:min(560px, 100%); height:auto; display:block; }
 
     .seg{
       cursor:pointer;
       transition: filter .18s ease, opacity .18s ease;
     }
-    .seg:hover{ filter: drop-shadow(0 0 7px rgba(43,108,255,.45)); }
-    .seg.active{ filter: drop-shadow(0 0 12px rgba(43,108,255,.7)); }
+    .seg:hover{ filter: drop-shadow(0 0 8px rgba(43,108,255,.55)); }
+    .seg.active{ filter: drop-shadow(0 0 14px rgba(43,108,255,.75)); }
 
     .ringStroke{
       fill:none;
@@ -80,43 +90,47 @@
       opacity:.95;
     }
     .divider{
-      stroke: rgba(43,108,255,.65);
+      stroke: rgba(43,108,255,.75);
       stroke-width: 2.2;
     }
 
     .label{
       fill: var(--text);
-      font-weight: 650;
-      font-size: 14px;
-      letter-spacing: .08em;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: .10em;
       text-transform: uppercase;
+      opacity: .98;
     }
 
     .panel{
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(182,198,255,.18);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(199,210,255,.20);
       border-radius: 18px;
-      padding:16px 16px 14px;
-      box-shadow: 0 16px 40px var(--shadow);
+      padding:18px 18px 16px;
+      box-shadow: 0 18px 44px var(--shadow);
     }
     .panel h3{
       margin:0 0 8px;
       font-size:12px;
-      letter-spacing:.14em;
+      letter-spacing:.16em;
       text-transform:uppercase;
       color: var(--muted);
+      font-weight: 800;
     }
     .panel .value{
-      font-size:22px;
-      line-height:1.2;
-      margin:0 0 10px;
-      font-weight:800;
+      font-size:24px;
+      line-height:1.15;
+      margin:0 0 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
     }
     .panel .sense{
       margin:0;
-      font-size:14px;
-      line-height:1.55;
-      color: rgba(233,238,252,.88);
+      font-size:15px;
+      line-height:1.65;
+      color: rgba(243,246,255,.92);
+      font-weight: 500;
       white-space: pre-wrap;
     }
 
@@ -126,15 +140,16 @@
       gap:8px;
       align-items:center;
       font-size:12px;
-      color: rgba(233,238,252,.82);
-      background: rgba(182,198,255,.08);
-      border: 1px solid rgba(182,198,255,.22);
-      padding:8px 10px;
+      color: rgba(243,246,255,.85);
+      background: rgba(199,210,255,.10);
+      border: 1px solid rgba(199,210,255,.24);
+      padding:9px 12px;
       border-radius: 12px;
       cursor:pointer;
       user-select:none;
+      font-weight: 700;
     }
-    .reset:hover{ background: rgba(182,198,255,.12); }
+    .reset:hover{ background: rgba(199,210,255,.14); }
   </style>
 </head>
 
@@ -149,7 +164,6 @@
         <svg viewBox="-260 -260 520 520" aria-label="Roda Interativa">
           <circle r="210" class="ringStroke" />
           <circle r="150" class="ringStroke" />
-
           <g id="segments" fill="none" stroke-linecap="butt"></g>
           <g id="labels"></g>
         </svg>
@@ -168,10 +182,8 @@
   </div>
 
   <script>
-    // Itens (rótulos do anel)
     const items = ["VARIEDADE","VERACIDADE","VELOCIDADE","VALOR","VOLUME"];
 
-    // Textos (descrição que aparece ao lado)
     const sentidos = {
       "VOLUME": `Hoje em dia temos um VOLUME gigante de dados em todas as empresas, e por isso o volume passou a ser uma preocupação muito grande, em um mundo em que temos uma captura de dados à todo tempo. Essa grande quantidade de dados também pode ser chamada de BIG DATA.`,
       "VARIEDADE": `Com esse grande volume de dados, temos diversos de modos que os dados chegam em uma base, sendo elas, vídeos, txt, dados tabulados, áudios e etc. Com essas VARIEDADES de conteúdos, é necessário o uso de outras tecnologias pra fazer a compreensão desses dados, onde depois, seja possível criar uma correlação entre eles.`,
@@ -180,19 +192,14 @@
       "VALOR": `Quais desses dados realmente são importantes para uma análise em uma empresa, saber filtrar os dados que vão de fato, influenciar em decisões cruciais dentro da empresa é mais um ponto necessário que evita uma desorganização e uma falta de armazenamento de dados que pode ser evitada.`
     };
 
-    // Geometria do anel
     const rOuter = 210;
     const rInner = 150;
     const rMid   = (rOuter + rInner) / 2;
     const strokeWidth = (rOuter - rInner);
 
-    // Segmentação
     const n = items.length;
-    const full = 360;
     const gapDeg = 2.2;
-    const segDeg = (full / n) - gapDeg;
-
-    // Rotação inicial
+    const segDeg = (360 / n) - gapDeg;
     const startRotation = -90 - (segDeg + gapDeg)/2;
 
     const strokeColor = getComputedStyle(document.documentElement).getPropertyValue('--ring').trim();
@@ -204,14 +211,13 @@
     const resetBtn = document.getElementById("resetBtn");
 
     function polarToCartesian(r, angleDeg){
-      const a = (angleDeg) * Math.PI / 180;
+      const a = angleDeg * Math.PI / 180;
       return { x: r * Math.cos(a), y: r * Math.sin(a) };
     }
-
     function arcPath(r, a0, a1){
       const p0 = polarToCartesian(r, a0);
       const p1 = polarToCartesian(r, a1);
-      const largeArc = (a1 - a0) % 360 > 180 ? 1 : 0;
+      const largeArc = ((a1 - a0) % 360) > 180 ? 1 : 0;
       return `M ${p0.x.toFixed(3)} ${p0.y.toFixed(3)} A ${r} ${r} 0 ${largeArc} 1 ${p1.x.toFixed(3)} ${p1.y.toFixed(3)}`;
     }
 
@@ -220,10 +226,9 @@
         el.classList.toggle("active", i === index);
         el.style.opacity = (i === index) ? "1" : "0.88";
       });
-
       const name = items[index];
       selectedText.textContent = name;
-      senseText.textContent = sentidos[name] || `SENTIDO ${name}`;
+      senseText.textContent = sentidos[name] || name;
     }
 
     function clearActive(){
@@ -235,7 +240,6 @@
       senseText.textContent = "Selecione um item para ver a descrição.";
     }
 
-    // Gera segmentos e labels
     items.forEach((name, i) => {
       const aStart = startRotation + i*(segDeg + gapDeg) + gapDeg/2;
       const aEnd   = aStart + segDeg;
@@ -245,7 +249,6 @@
       path.setAttribute("stroke", strokeColor);
       path.setAttribute("stroke-width", strokeWidth);
       path.setAttribute("class", "seg");
-      path.setAttribute("data-index", String(i));
       path.addEventListener("click", () => setActive(i));
       segGroup.appendChild(path);
 
@@ -269,15 +272,13 @@
       text.setAttribute("dominant-baseline","middle");
 
       let rot = mid + 90;
-      const flip = (mid > 90 && mid < 270);
-      if (flip) rot += 180;
-
+      if (mid > 90 && mid < 270) rot += 180;
       text.setAttribute("transform", `rotate(${rot} ${labelPos.x} ${labelPos.y})`);
       text.textContent = name;
       labelGroup.appendChild(text);
     });
 
-    // Última divisória
+    // última divisória
     {
       const a = startRotation + n*(segDeg + gapDeg) + gapDeg/2;
       const divider = document.createElementNS("http://www.w3.org/2000/svg","line");
